@@ -130,12 +130,15 @@ router rip
 │   ├── subnetting-plan.jpg
 │   └── connectivity-test.jpg
 └── docs/
-    └── original-submission/
-        ├── course-brief.pdf      تكليف المشروع (COM204)
-        └── documentation.pdf     التوثيق الأصلي المسلّم
+    ├── network-documentation.md  توثيق المشروع (بالإنجليزي)
+    └── course-brief.pdf          تكليف المشروع (COM204)
 ```
 
 <div dir="rtl">
+
+## التوثيق
+
+شوف [docs/network-documentation.md](docs/network-documentation.md) للتصميم والمكونات ومثال الإعداد وملاحظات الاختبار (بالإنجليزي).
 
 ## طريقة فتح المشروع
 

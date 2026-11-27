@@ -106,10 +106,13 @@ The pings show that traffic crosses buildings. The Telnet attempt reaches the ro
 │   ├── subnetting-plan.jpg
 │   └── connectivity-test.jpg
 └── docs/
-    └── original-submission/
-        ├── course-brief.pdf      Course project brief (COM204)
-        └── documentation.pdf     Original submitted documentation
+    ├── network-documentation.md  Step-by-step project documentation
+    └── course-brief.pdf          Course project brief (COM204)
 ```
+
+## Documentation
+
+See [docs/network-documentation.md](docs/network-documentation.md) for the design, components, configuration example and test notes.
 
 ## How to open the project
 
