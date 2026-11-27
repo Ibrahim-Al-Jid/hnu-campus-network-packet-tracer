@@ -1,295 +1,135 @@
-# Helwan National University  
-## Computer Networks Project (COM204)  
-### Scalable & Secure Campus Network Design
+# HNU Campus Network (Cisco Packet Tracer)
 
----
+**English** | [العربية](README.ar.md)
 
-## 📘 Course Information
+A campus network for four buildings of Helwan National University (HNU), designed and simulated in Cisco Packet Tracer. It uses one VLAN per department, a /26 subnet per VLAN, a router per building and RIP routing between buildings, with remote management over Telnet. Built for the COM204 Computer Networks course, academic year 2024/2025.
 
-- **Course Code:** COM204  
-- **Course Name:** Computer Networks  
-- **Instructor:** Prof. Mahmoud Elmesalawy  
-- **Teaching Assistant:** Eng. Adham Ehab  
-- **Academic Year:** 2024 / 2025  
+![Network topology](images/topology.jpg)
 
----
+## At a glance
 
-## 👥 Project Team
+| Item | Value |
+| --- | --- |
+| Buildings | Administration, Engineering, Computer Science & IT (CSIT), Medicine |
+| Devices | 4 routers (Router-PT-Empty), 4 switches (2960-24TT), 24 PCs |
+| Departments per building | HR, IT, Student Affairs (3 VLANs per building, 12 in total) |
+| Subnet size | /26 (255.255.255.192), 62 usable hosts each |
+| Inter-building links | 11.0.0.0, 12.0.0.0, 13.0.0.0 (point-to-point, /24) |
+| Routing | RIP v2 |
+| Remote management | Telnet |
+| Tool | Cisco Packet Tracer |
 
-- **Zeinab Ahmed**
-- **Ibrahim Hamdy**    
+## Topology
 
-> Developed collaboratively as part of the COM204 coursework.
-
----
-
-# 📌 Project Overview
-
-This project presents the design and simulation of a scalable, secure, and structured campus network for **Helwan National University (HNU)** using Cisco Packet Tracer.
-
-The objective is to interconnect four major university buildings while ensuring:
-
-- Logical traffic segmentation  
-- Efficient IP addressing using VLSM  
-- Dynamic routing implementation  
-- Secure remote management  
-- Automated IP assignment using DHCP  
-
----
-
-# 🏢 Network Scope
-
-The implemented network connects the following buildings:
-
-- Administration Building  
-- Faculty of Engineering  
-- Faculty of Computer Science & Information Technology  
-- Faculty of Medicine  
-
-Each building contains multiple departments logically separated using VLAN technology.
-
----
-
-# 🗺️ Network Topology
-
-![Network Topology](images/Network.jpg)
-
-## Physical Components
-
-- 4 Routers (One per building)
-- 4 Cisco 2960 Switches
-- 24 PCs (Department devices)
-- VLAN-based segmentation
-- Inter-router WAN connections
-
-## Logical Design
-
-- Inter-VLAN Routing
-- Dynamic routing between routers
-- Centralized DHCP configuration
-- Secure remote device management
-
----
-
-# 🧠 Network Design Architecture
-
-<details>
-<summary><strong>Click to Expand – Core Design Principles</strong></summary>
-
-## 1️⃣ Hierarchical Structure
-- Access Layer → Switches
-- Core Layer → Routers
-- Structured building-to-building connectivity
-
-## 2️⃣ Scalability
-- VLSM allows future expansion
-- Modular building-based segmentation
-
-## 3️⃣ Security
-- VLAN isolation
-- Telnet & SSH configuration
-- Console and VTY authentication
-
-## 4️⃣ Manageability
-- Hostname configuration
-- Management IP addressing
-- Routing table verification
-
-</details>
-
----
-
-# 🌐 VLAN Implementation
-
-| Department      | VLAN ID | Purpose                  |
-| --------------- | ------- | ------------------------ |
-| Human Resources | 10      | Administrative isolation |
-| IT Department   | 20      | Technical infrastructure |
-| Student Affairs | 30      | Student service systems  |
-
-### VLAN Strategy
-
-- Dedicated VLAN per department
-- Access ports assigned accordingly
-- Trunk links between switches and routers
-- Inter-VLAN routing enabled via router interfaces
-
----
-
-# 🧮 Subnetting Plan (VLSM)
-
-![Subnetting Plan](images/Subnetting_Plan.jpg)
-
-VLSM (Variable Length Subnet Masking) was implemented to:
-
-- Reduce IP address waste  
-- Provide flexible growth  
-- Allocate IP blocks based on department size  
-
-## Example Allocation
-
-| Building / Department  | Subnet        | Subnet Mask     | Usable Hosts | Broadcast  |
-| ---------------------- | ------------- | --------------- | ------------ | ---------- |
-| Admin – HR             | 10.0.0.0/26   | 255.255.255.192 | 62           | 10.0.0.63  |
-| Engineering – IT       | 10.0.0.64/26  | 255.255.255.192 | 62           | 10.0.0.127 |
-| CSIT – Student Affairs | 10.0.0.128/26 | 255.255.255.192 | 62           | 10.0.0.191 |
-
-> Note: Actual addressing may slightly vary in the Packet Tracer file.
-
----
-
-# 🔄 Routing Configuration
-
-The routing strategy includes:
-
-- RIP (Routing Information Protocol)
-- OSPF (Open Shortest Path First)
-- Static routes where necessary
-
-## Verification Commands
+The routers are connected in a line:
 
 ```
-show ip route
-show ip protocols
-````
+Administration --11.0.0.0-- Engineering --12.0.0.0-- CSIT --13.0.0.0-- Medicine
+```
 
-Routing ensures seamless communication between all buildings and VLANs.
+Each building has one router and one switch. The switch carries the three department VLANs and the router is the gateway for them. Colors in the diagram: blue is the building, green is HR, yellow is IT, red is Student Affairs.
 
----
+## Addressing plan
 
-# 📡 DHCP Configuration
+| Building | Department | VLAN | Subnet | Host range | Broadcast |
+| --- | --- | --- | --- | --- | --- |
+| Administration | HR | 10 | 10.0.0.0/26 | 10.0.0.1 - 10.0.0.62 | 10.0.0.63 |
+| Administration | IT | 20 | 10.0.0.64/26 | 10.0.0.65 - 10.0.0.126 | 10.0.0.127 |
+| Administration | Student Affairs | 30 | 10.0.0.128/26 | 10.0.0.129 - 10.0.0.190 | 10.0.0.191 |
+| Engineering | HR | 100 | 10.0.1.0/26 | 10.0.1.1 - 10.0.1.62 | 10.0.1.63 |
+| Engineering | IT | 110 | 10.0.1.64/26 | 10.0.1.65 - 10.0.1.126 | 10.0.1.127 |
+| Engineering | Student Affairs | 120 | 10.0.1.128/26 | 10.0.1.129 - 10.0.1.190 | 10.0.1.191 |
+| CSIT | HR | 40 | 192.168.1.0/26 | 192.168.1.1 - 192.168.1.62 | 192.168.1.63 |
+| CSIT | IT | 50 | 192.168.1.64/26 | 192.168.1.65 - 192.168.1.126 | 192.168.1.127 |
+| CSIT | Student Affairs | 60 | 192.168.1.128/26 | 192.168.1.129 - 192.168.1.190 | 192.168.1.191 |
+| Medicine | HR | 70 | 192.168.2.0/26 | 192.168.2.1 - 192.168.2.62 | 192.168.2.63 |
+| Medicine | IT | 80 | 192.168.2.64/26 | 192.168.2.65 - 192.168.2.126 | 192.168.2.127 |
+| Medicine | Student Affairs | 90 | 192.168.2.128/26 | 192.168.2.129 - 192.168.2.190 | 192.168.2.191 |
 
-* Automatic IP address distribution
-* Eliminates IP conflicts
-* Simplifies device deployment
-* Separate DHCP pools per VLAN
+![Subnetting plan](images/subnetting-plan.jpg)
 
----
+In the diagram, the short labels such as `.1`, `.2`, `.65`, `.66`, `.129`, `.130` are the host part of each PC address. For example HR2 in Administration is `10.0.0.2`.
 
-# 🔐 Remote Access & Security
+## Sample router configuration
 
-* Telnet configured for remote CLI access
-* SSH enabled for encrypted remote management
-* Line console and VTY password protection
-* Hostname identification for easier troubleshooting
-
----
-
-# ⚙️ Sample Router Configuration
+Example for the CSIT router, using the values from the project documentation. Replace the hostname and passwords with your own.
 
 ```
 enable
 configure terminal
-hostname HNU-CS
+hostname HNU-CSIT
 
 interface gigabitEthernet 0/0
-ip address 192.168.1.62 255.255.255.192
-no shutdown
+ ip address 192.168.1.62 255.255.255.192
+ no shutdown
+
+interface gigabitEthernet 0/4
+ ip address 12.0.0.2 255.255.255.0
+ no shutdown
 
 router rip
-version 2
-network 10.0.0.0
-no auto-summary
+ version 2
+ no auto-summary
+ network 192.168.1.0
+ network 12.0.0.0
+ network 13.0.0.0
 ```
 
----
+This sample is a reconstruction of the documented values, not an export of the Packet Tracer file. Check the real configuration in the `.pkt` file.
 
-# 🧪 Network Testing & Validation
+## Testing
 
-![Testing Phase](images/Testing.jpg)
+![Connectivity test from HR2](images/connectivity-test.jpg)
 
-The following tests were performed:
+From PC `HR2` (10.0.0.2, Administration):
 
-* Inter-building Ping
-* Inter-VLAN communication
-* DHCP address assignment verification
-* Telnet & SSH remote access testing
-* Routing table validation
+| Test | Result |
+| --- | --- |
+| `ping 13.0.0.1` | 4 of 4 replies |
+| `ping 192.168.1.126` (CSIT IT subnet) | 4 of 4 replies |
+| `ping 12.0.0.2` | 3 of 4 replies (first request timed out, normal while ARP resolves) |
+| `telnet 192.168.1.62` | Connection opened, then closed by the remote host |
 
-<details>
-<summary><strong>Click to Expand – Testing Procedure</strong></summary>
+The pings show that traffic crosses buildings. The Telnet attempt reaches the router but the session ends right away, so remote login is not fully demonstrated by this screenshot.
 
-1. Use `ping` between PCs in different VLANs
-2. Use `ping` between routers
-3. Verify DHCP using `ipconfig`
-4. Access routers via Telnet or SSH
-5. Check routing table using `show ip route`
-
-</details>
-
----
-
-# 🚧 Challenges & Resolutions
-
-| Issue                   | Resolution                               |
-| ----------------------- | ---------------------------------------- |
-| VLAN misconfiguration   | Rechecked port assignments & trunk links |
-| Routing inconsistencies | Verified network statements in RIP/OSPF  |
-| IP conflicts            | Adjusted subnetting & enabled DHCP       |
-| Remote access failure   | Reviewed VTY configuration               |
-
----
-
-# 📂 Project Structure
+## Repository contents
 
 ```
-Project Root
-│
+.
+├── README.md                     English README
+├── README.ar.md                  Arabic README
+├── LICENSE
+├── packet-tracer/
+│   └── hnu-campus-network.pkt    Packet Tracer project file
 ├── images/
-│   ├── Network.jpg
-│   ├── Subnetting_Plan.jpg
-│   └── Testing.jpg
-│
-├── Project.pkt
-├── Documentation.pdf
-└── README.md
+│   ├── topology.jpg
+│   ├── subnetting-plan.jpg
+│   └── connectivity-test.jpg
+└── docs/
+    └── original-submission/
+        ├── course-brief.pdf      Course project brief (COM204)
+        └── documentation.pdf     Original submitted documentation
 ```
 
----
+## How to open the project
 
-# 🖥️ Requirements
+1. Install Cisco Packet Tracer.
+2. Open `packet-tracer/hnu-campus-network.pkt`.
+3. Open the Command Prompt on any PC and run the tests above.
 
-* Cisco Packet Tracer
-* Understanding of:
+## Limits and next steps
 
-  * Subnetting & VLSM
-  * VLAN Configuration
-  * Routing Protocols (RIP / OSPF)
-  * DHCP
-  * Basic Network Security
+- All 12 subnets are the same size (/26). That is fixed-length subnetting, not VLSM. Sizing each subnet to its department and using /30 links between routers would save addresses.
+- Only the first three /26 blocks of each building range are used, and each VLAN has two PCs.
+- Telnet sends passwords in clear text. Use SSH, `enable secret` and `service password-encryption` for any real network.
+- Add access control lists to limit traffic between departments, and test OSPF as an alternative to RIP.
+- Add DHCP pools per VLAN (the course brief asks for DHCP). The documentation in this repository does not show them.
+- The topology is a line, so one failed link splits the campus. A ring or redundant links would remove that.
 
----
+## Author
 
-# 📈 Future Improvements
+Ibrahim Hamdy ([@Ibrahim-Al-Jid](https://github.com/Ibrahim-Al-Jid)).
 
-* Implement Access Control Lists (ACLs)
-* Introduce centralized servers
-* Deploy multi-area OSPF
-* Add firewall segmentation
-* Integrate monitoring tools
+## License
 
----
-
-# ✅ Conclusion
-
-This project successfully demonstrates the design and deployment of a structured university campus network that achieves:
-
-* Efficient IP allocation
-* Logical traffic segmentation
-* Reliable inter-building routing
-* Secure remote management
-* Expandable architecture
-
-The network is scalable and ready for future expansion across the university campus.
-
----
-
-## 📜 Academic Note
-
-This project is submitted as coursework for COM204 – Computer Networks.
-
----
-
-### Designed and Implemented By
-
-**Zeinab Ahmed & Ibrahim Hamdy**
+MIT. See [LICENSE](LICENSE).
